@@ -7,15 +7,9 @@ namespace Calculator
     class Game
     {
         // Initializing the variable that will change throughout the code.
-        float value = 0;
-
-        /// <summary>
-        /// This code takes the main value and displays it to the user.
-        /// </summary>
-        void DisplayValue()
-        {
-            Console.WriteLine(value);
-        }
+        float answer = 0;
+        float value1 = 0;
+        float value2 = 0;
 
         /// <summary>
         /// This function clears the screen to keep it from getting cluttered with information.
@@ -72,126 +66,101 @@ namespace Calculator
         }
 
         /// <summary>
-        /// Asks the user what they would like to do with the main value, adding to it, subtracting
-        /// from it, multiplying by it, or dividing by it.
+        /// Asks the user to enter a number for the equation.
         /// </summary>
-        /// <param name="value"> This is the main value that the user can change. </param>
-        /// <returns> Returns the main value of the program. Now modified by the user. </returns>
-        void AskUser()
+        /// <returns></returns>
+        float AskNumber()
+        {
+            string input = "";
+            float number = 0;
+            bool validInputRecieved = false;
+            while (validInputRecieved == false)
+            {
+                Console.Write("Please enter a number \n> ");
+                input = Console.ReadLine();
+                if (!float.TryParse(input, out number))
+                {
+                    Console.WriteLine("Please enter a vaild input.");
+                    ClearScreen();
+                }
+                else
+                {
+                    float.TryParse(input, out number);
+                    validInputRecieved = true;
+                }
+            }
+
+            return number;
+        }
+
+        /// <summary>
+        /// Asks the user to input the operator for the equation.
+        /// </summary>
+        /// <returns></returns>
+        string AskOperator()
         {
             string input = "";
             bool validInputRecieved = false;
-            bool validNumberRecieved = false;
-            float number = 0;
 
-            // This will ask the user what they would like to do to modify the value. It will continue to ask
-            // until the user gives a valid input.
-            while (validInputRecieved == false)
+            while(validInputRecieved == false)
             {
-                DisplayValue();
-                Console.WriteLine("What would you like to do with the value?");
-                Console.Write("1. Add \n2. Subtract \n3. Multiply \n4. Divide \n> ");
-                input = Console.ReadLine().ToLower();
-
-                // This option will add input to value if it is a valid number.
-                if(input == "1" || input == "add")
-                {
-                    while (validNumberRecieved == false)
-                    {
-                        ClearScreen();
-                        DisplayValue();
-                        Console.Write("Type in a number to add to the value. \n> ");
-                        input = Console.ReadLine();
-                        if(float.TryParse(input, out number))
-                        {
-                            float.TryParse(input, out number);
-                            value = Add(value, number);
-                            validNumberRecieved = true;
-                        }
-                        else
-                        {
-                            Console.WriteLine("Please enter a valid input.");
-                        }
-                    }
-                    validInputRecieved = true;
-                }
-
-                // This option will subtract input from value if it is a valid number.
-                else if (input == "2" || input == "subtract")
-                {
-                    while (validNumberRecieved == false)
-                    {
-                        ClearScreen();
-                        DisplayValue();
-                        Console.Write("Type in a number to subtract from the value. \n> ");
-                        input = Console.ReadLine();
-                        if (float.TryParse(input, out number))
-                        {
-                            float.TryParse(input, out number);
-                            value = Subtract(value, number);
-                            validNumberRecieved = true;
-                        }
-                        else
-                        {
-                            Console.WriteLine("Please enter a valid input.");
-                        }
-                    }
-                    validInputRecieved = true;
-                }
-
-                // This option will multiply input by value if it is a valid number.
-                else if (input == "3" || input == "multiply")
-                {
-                    while (validNumberRecieved == false)
-                    {
-                        ClearScreen();
-                        DisplayValue();
-                        Console.Write("Type in a number to multiply by the value. \n> ");
-                        input = Console.ReadLine();
-                        if (float.TryParse(input, out number))
-                        {
-                            float.TryParse(input, out number);
-                            value = Multiply(value, number);
-                            validNumberRecieved = true;
-                        }
-                        else
-                        {
-                            Console.WriteLine("Please enter a valid input.");
-                        }
-                    }
-                    validInputRecieved = true;
-                }
-
-                // This option will divide input by value if it is a valid number.
-                else if (input == "4" || input == "divide")
-                {
-                    while (validNumberRecieved == false)
-                    {
-                        ClearScreen();
-                        DisplayValue();
-                        Console.Write("Type in a number to divide by the value. \n> ");
-                        input = Console.ReadLine();
-                        if (float.TryParse(input, out number))
-                        {
-                            float.TryParse(input, out number);
-                            value = Divide(value, number);
-                            validNumberRecieved = true;
-                        }
-                        else
-                        {
-                            Console.WriteLine("Please enter a valid input.");
-                        }
-                    }
-                    validInputRecieved = true;
-                }
-                else
+                Console.Write("Please enter an operator \n> ");
+                input = Console.ReadLine();
+                if(!(input == "+" || input == "-" || input == "*" || input == "/"))
                 {
                     Console.WriteLine("Please enter a valid input.");
                     ClearScreen();
                 }
+                else
+                {
+                    validInputRecieved = true;
+                }
             }
 
+            return input;
+        }
+
+        /// <summary>
+        /// Asks the user to enter two numbers and an operator, then finds the solution.
+        /// </summary>
+        void AskUser()
+        {
+            string sign = "";
+            // Sets the number for value1. If answer, which value1 is equal to initially is 0, ask the user
+            // for a number.
+            if(value1 == 0)
+            {
+                value1 = AskNumber();
+                ClearScreen();
+            }
+
+            // Sets the sign for the operation.
+            sign = AskOperator();
             ClearScreen();
+
+            // Sets the number for value2.
+            value2 = AskNumber();
+            ClearScreen();
+
+            // Checks what the sign is, and sets answer equal to the appropriate equation.
+            if(sign == "+")
+            {
+                answer = Add(value1, value2);
+            }
+            else if (sign == "-")
+            {
+                answer = Subtract(value1, value2);
+            }
+            else if (sign == "*")
+            {
+                answer = Multiply(value1, value2);
+            }
+            else
+            {
+                answer = Divide(value1, value2);
+            }
+
+            Console.WriteLine(value1 + " " + sign + " " + value2 + " = " + answer);
         }
 
         public void Run()
@@ -200,26 +169,17 @@ namespace Calculator
             string input = "";
 
             // This program will continue to run until the user is finished.
-            while (isFinished == false)
+            while (!isFinished)
             {
-                DisplayValue();
-                Console.Write("Press 0 to quit. \nPress 1 to reset value. \nPress any other key to" +
-                    " continue. \n> ");
+                value1 = answer;
+                Console.Write("Press 0 to quit. \nPress any other key to continue. \n> ");
                 input = Console.ReadLine();
-                Console.WriteLine();
+                Console.Clear();
 
                 //This option will end the program.
                 if(input == "0")
                 {
                     isFinished = true;
-                }
-
-                // This option will reset the value to 0, then continue asking the user to modify it.
-                else if(input == "!")
-                {
-                    value = 0;
-                    AskUser();
-                    ClearScreen();
                 }
 
                 // This option will just ask the user to modify the value.
