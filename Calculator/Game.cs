@@ -128,12 +128,9 @@ namespace Calculator
             string sign = "";
             // Sets the number for value1. If answer, which value1 is equal to initially is 0, ask the user
             // for a number.
-            if(value1 == 0)
-            {
-                value1 = AskNumber();
-                ClearScreen();
-            }
-
+            value1 = AskNumber();
+            ClearScreen();
+            
             // Sets the sign for the operation.
             sign = AskOperator();
             ClearScreen();
@@ -171,7 +168,6 @@ namespace Calculator
             // This program will continue to run until the user is finished.
             while (!isFinished)
             {
-                value1 = answer;
                 Console.Write("Press 0 to quit. \nPress any other key to continue. \n> ");
                 input = Console.ReadLine();
                 Console.Clear();
