@@ -202,6 +202,7 @@ namespace Calculator
             // This program will continue to run until the user is finished.
             while (isFinished == false)
             {
+                DisplayValue();
                 Console.Write("Press 0 to quit. \nPress 1 to reset value. \nPress any other key to" +
                     " continue. \n> ");
                 input = Console.ReadLine();
