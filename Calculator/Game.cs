@@ -6,7 +6,7 @@ namespace Calculator
 {
     class Game
     {
-        // Initializing the variable that will change throughout the code.
+        // Initializing the variables that will change throughout the code.
         float answer = 0;
         float value1 = 0;
         float value2 = 0;
@@ -55,7 +55,7 @@ namespace Calculator
         }
 
         /// <summary>
-        /// Finds the answer to the division of the first number and the second.
+        /// Finds the answer to the first number divided by the second.
         /// </summary>
         /// <param name="number1"> The first number. </param>
         /// <param name="number2"> The second number. </param>
